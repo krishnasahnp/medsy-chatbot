@@ -44,6 +44,7 @@ const ChatInterface = () => {
                 text: data.response,
                 sender: 'bot',
                 isEmergency: data.is_emergency,
+                options: data.intent?.options || [],
                 timestamp: new Date()
             };
             setMessages(prev => [...prev, botMsg]);
@@ -89,6 +90,30 @@ const ChatInterface = () => {
                             }`}
                         >
                             <p>{msg.text}</p>
+                            
+                            {msg.options && msg.options.length > 0 && (
+                                <div className="flex flex-wrap gap-2 mt-4 pt-3 border-t border-white/10">
+                                    {msg.options.map((opt, idx) => (
+                                        <button 
+                                            key={idx}
+                                            onClick={() => {
+                                                setInputText(opt);
+                                                setTimeout(() => {
+                                                    document.getElementById('chat-submit-btn')?.click();
+                                                }, 100);
+                                            }}
+                                            className={`px-4 py-1.5 rounded-full text-xs font-medium transition-colors border
+                                                ${(msg.sender === 'user' || msg.isEmergency)
+                                                    ? 'bg-white/20 hover:bg-white/30 text-white border-white/10' 
+                                                    : 'bg-medical-blue/10 hover:bg-medical-blue/20 text-medical-blue border-medical-blue/20'
+                                                }`}
+                                        >
+                                            {opt}
+                                        </button>
+                                    ))}
+                                </div>
+                            )}
+
                             <span className={`text-[10px] mt-1 block opacity-70 ${msg.sender === 'user' ? 'text-right' : 'text-left'}`}>
                                 {new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                             </span>
@@ -119,6 +144,7 @@ const ChatInterface = () => {
                         className="flex-1 p-3 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-medical-blue focus:border-transparent"
                     />
                     <button 
+                        id="chat-submit-btn"
                         type="submit" 
                         disabled={!inputText.trim()}
                         className="p-3 bg-medical-blue text-white rounded-full hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed"
