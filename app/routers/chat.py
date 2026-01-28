@@ -32,7 +32,7 @@ async def chat_endpoint(request: ChatRequest):
     user_id = request.user_id
     
     # 1. Emergency Check
-    emergency_status = emergency_detector.check_symptoms(message.split())
+    emergency_status = emergency_detector.check_symptoms(message)
     if emergency_status['is_emergency']:
         return ChatResponse(
             response=emergency_status['alert_message'] + " " + emergency_status['action_required'],

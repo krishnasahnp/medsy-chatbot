@@ -24,7 +24,8 @@ class IntentClassifier:
                 "I'd like to schedule a consultation", "Is there a slot on Monday?", "Book me in please",
                 "I want to see a specialist", "Schedule an ent appointment", "I need to visit the clinic",
                 "Can I come in today?", "Make an appointment", "I need a doctor's appointment",
-                "Schedule a general checkup", "I want to reserve a time"
+                "Schedule a general checkup", "I want to reserve a time", "clinic visit scheduling",
+                "doctor consultation booking", "reserve a medical slot", "register for checkup"
             ],
             "report_symptoms": [
                 "I have a headache", "My stomach hurts", "I'm feeling dizzy", "I have a fever",
@@ -32,7 +33,8 @@ class IntentClassifier:
                 "I feel nauseous", "My back is killing me", "I have a skin rash",
                 "Breathing difficulty", "I feel weak and tired", "Joint pain in my knees",
                 "I have high blood pressure symptoms", "My vision is blurry", "I'm shivering",
-                "I have a runny nose", "My ear hurts", "I'm vomiting", "Diarrhea and stomach cramps"
+                "I have a runny nose", "My ear hurts", "I'm vomiting", "Diarrhea and stomach cramps",
+                "my body is aching", "i keep sneezing", "pain when swallowing", "eyes are itchy"
             ],
             "ask_medication_info": [
                 "What is Paracetamol used for?", "Side effects of Ibuprofen", "How to take Amoxicillin?",

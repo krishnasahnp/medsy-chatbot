@@ -39,12 +39,12 @@ class EmergencyDetector:
             "bleeding": 7, "high fever": 5, "seizure": 10
         }
 
-    def check_symptoms(self, user_symptoms: list) -> dict:
+    def check_symptoms(self, message: str) -> dict:
         """
-        Analyze a list of symptoms string for emergency conditions.
+        Analyze a message string for emergency conditions.
         Returns a dict with alert status and details.
         """
-        user_symptoms = [s.lower() for s in user_symptoms]
+        message = message.lower()
         detected_conditions = []
         max_severity = 0
         
@@ -52,8 +52,7 @@ class EmergencyDetector:
         for condition, criteria in self.rules.items():
             match_count = 0
             for crit_symptom in criteria["symptoms"]:
-                # Fuzzy match logic (simplified)
-                if any(crit_symptom in s for s in user_symptoms):
+                if crit_symptom in message:
                     match_count += 1
             
             if match_count >= criteria["required_count"]:
@@ -62,7 +61,7 @@ class EmergencyDetector:
 
         # Individual severe symptom check
         for symptom, score in self.symptom_scores.items():
-            if any(symptom in s for s in user_symptoms):
+            if symptom in message:
                 max_severity = max(max_severity, score)
                 if score >= 9:
                     detected_conditions.append(f"Critical Symptom: {symptom}")
