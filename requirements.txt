@@ -1,0 +1,17 @@
+fastapi
+uvicorn
+sqlalchemy
+python-dotenv
+spacy
+nltk
+scikit-learn
+beautifulsoup4
+pyttsx3
+SpeechRecognition
+torch
+pydantic-settings
+pandas
+playsound
+fpdf
+requests
+beautifulsoup4
