@@ -44,6 +44,7 @@ const ChatInterface = () => {
                 text: data.response,
                 sender: 'bot',
                 isEmergency: data.is_emergency,
+                intent: data.intent,
                 options: data.intent?.options || [],
                 timestamp: new Date()
             };
