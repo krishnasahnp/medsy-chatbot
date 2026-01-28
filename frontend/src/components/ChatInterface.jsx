@@ -126,52 +126,52 @@ const ChatInterface = () => {
                             
                             {/* Modern Appointment Summary Card */}
                             {msg.intent?.is_summary && msg.intent?.booking_data && (
-                                <div className="mt-4 bg-white/10 border border-white/20 rounded-xl p-4 shadow-inner overflow-hidden relative">
-                                    <div className="absolute top-0 right-0 p-2 opacity-20">
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <div className="mt-4 bg-gray-50 border border-gray-200 rounded-xl p-4 shadow-sm overflow-hidden relative">
+                                    <div className="absolute top-0 right-0 p-2 opacity-10">
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 text-gray-900" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                         </svg>
                                     </div>
                                     <div className="flex items-center space-x-2 mb-3">
                                         <span className="bg-medical-blue text-white text-[10px] px-2 py-0.5 rounded-full uppercase tracking-widest font-bold">Confirmed</span>
-                                        <span className="text-white/60 text-[10px] font-mono">ID: {msg.intent.booking_data.id}</span>
+                                        <span className="text-gray-400 text-[10px] font-mono">ID: {msg.intent.booking_data.id}</span>
                                     </div>
                                     <div className="space-y-3">
-                                        <div className="flex justify-between items-center border-b border-white/10 pb-2">
-                                            <span className="text-white/60 text-[11px] uppercase tracking-tighter">Patient:</span>
-                                            <span className="text-white font-semibold text-sm">{msg.intent.booking_data.patient_name}</span>
+                                        <div className="flex justify-between items-center border-b border-gray-100 pb-2">
+                                            <span className="text-gray-500 text-[11px] uppercase tracking-tighter">Patient:</span>
+                                            <span className="text-gray-800 font-semibold text-sm">{msg.intent.booking_data.patient_name}</span>
                                         </div>
-                                        <div className="flex justify-between items-center border-b border-white/10 pb-2">
-                                            <span className="text-white/60 text-[11px] uppercase tracking-tighter">Physician:</span>
-                                            <span className="text-white font-semibold text-sm">{msg.intent.booking_data.doctor}</span>
+                                        <div className="flex justify-between items-center border-b border-gray-100 pb-2">
+                                            <span className="text-gray-500 text-[11px] uppercase tracking-tighter">Physician:</span>
+                                            <span className="text-gray-800 font-semibold text-sm">{msg.intent.booking_data.doctor}</span>
                                         </div>
-                                        <div className="flex justify-between items-center border-b border-white/10 pb-2">
-                                            <span className="text-white/60 text-[11px] uppercase tracking-tighter">Reason:</span>
-                                            <span className="text-white font-medium text-sm">{msg.intent.booking_data.problem}</span>
+                                        <div className="flex justify-between items-center border-b border-gray-100 pb-2">
+                                            <span className="text-gray-500 text-[11px] uppercase tracking-tighter">Reason:</span>
+                                            <span className="text-gray-800 font-medium text-sm">{msg.intent.booking_data.problem}</span>
                                         </div>
-                                        <div className="flex justify-between items-center border-b border-white/10 pb-2">
-                                            <span className="text-white/60 text-[11px] uppercase tracking-tighter">Schedule:</span>
-                                            <span className="text-white font-medium text-sm">{msg.intent.booking_data.date} at {msg.intent.booking_data.time}</span>
+                                        <div className="flex justify-between items-center border-b border-gray-100 pb-2">
+                                            <span className="text-gray-500 text-[11px] uppercase tracking-tighter">Schedule:</span>
+                                            <span className="text-gray-800 font-medium text-sm">{msg.intent.booking_data.date} at {msg.intent.booking_data.time}</span>
                                         </div>
                                         <div className="flex flex-col pt-1">
-                                            <span className="text-white/60 text-[11px] uppercase tracking-tighter mb-1">Clinic Location:</span>
+                                            <span className="text-gray-500 text-[11px] uppercase tracking-tighter mb-1">Clinic Location:</span>
                                             <div className="flex items-start space-x-1">
                                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-medical-blue mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                                                 </svg>
-                                                <span className="text-white text-xs leading-tight">{msg.intent.booking_data.location}</span>
+                                                <span className="text-gray-700 text-xs leading-tight">{msg.intent.booking_data.location}</span>
                                             </div>
                                         </div>
                                         <div className="flex justify-between items-center pt-2">
-                                            <span className="text-white/60 text-[11px] uppercase tracking-tighter">Reports Attached:</span>
-                                            <span className={`text-[11px] px-2 py-0.5 rounded-full font-bold ${msg.intent.booking_data.has_reports ? 'bg-green-500/20 text-green-400' : 'bg-white/10 text-white/40'}`}>
+                                            <span className="text-gray-500 text-[11px] uppercase tracking-tighter">Reports Attached:</span>
+                                            <span className={`text-[11px] px-2 py-0.5 rounded-full font-bold ${msg.intent.booking_data.has_reports ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-400'}`}>
                                                 {msg.intent.booking_data.has_reports ? 'YES' : 'NONE'}
                                             </span>
                                         </div>
                                     </div>
-                                    <div className="mt-4 pt-3 border-t border-white/20 text-center">
-                                        <p className="text-[10px] text-white/50 italic">Medsy Medical Assistant - Healthcare in your pocket</p>
+                                    <div className="mt-4 pt-3 border-t border-gray-100 text-center">
+                                        <p className="text-[10px] text-gray-400 italic">Medsy Medical Assistant - Healthcare in your pocket</p>
                                     </div>
                                 </div>
                             )}
