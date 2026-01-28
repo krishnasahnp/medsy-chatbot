@@ -18,6 +18,52 @@ Medsy is built to handle the complexities of patient interaction with empathy an
 
 ---
 
+## 🚀 Detailed Features
+
+### 🎤 Voice Activation & Speech
+
+- **Wake Word Detection**: Responds instantly to "Medsy" using Pocketsphinx/SpeechRecognition.
+- **Natural Speech**: Integrated `pyttsx3` for fluid text-to-speech feedback.
+- **Hands-Free Operation**: Toggle voice mode for a completely touchless medical assistant experience.
+
+### 📅 Smart Appointment Management
+
+- **State-Machine Booking**: A persistent flow that remembers context (Problem -> Preferred Date -> Preferred Time).
+- **Conflict Avoidance**: Logic-based scheduling to ensure data integrity.
+- **Conversation Persistence**: Returns to the current booking state even after side-chats.
+
+### 📝 Pre-Appointment Intelligence
+
+- **Symptom Logging**: Modular tracking of patient symptoms with severity scoring.
+- **Smart Questioning**: Dynamically generates follow-up questions for the doctor based on symptoms.
+- **PDF Report Generation**: One-click generation of comprehensive medical reports for physical appointments.
+
+### 💊 Medication & Adherence
+
+- **Contextual Reminders**: "Take with food" or "On an empty stomach" based on medication type.
+- **Adherence Tracking**: Calculates and displays percentage-based compliance with treatment plans.
+- **Safety Warnings**: Automatic alerts for drowsy-inducing medications.
+
+### 🚨 Emergency Triage System
+
+- **Critical Pattern Matching**: Real-time detection of symptoms linked to heart attacks, strokes, and anaphylaxis.
+- **Automated Alerts**: Triggers an `AlertSystem` to simulate background notifications to emergency contacts.
+- **Dynamic Guidance**: High-priority UI overrides and immediate instructions for urgent scenarios.
+
+### 🧠 Advanced NLP Analysis
+
+- **Anxiety & Panic Detection**: Uses VADER to monitor patient stress levels and adjust bot empathy accordingly.
+- **Medical Jargon Translator**: A deep-dictionary-based system to simplify complex medical terms instantly.
+- **Topic Modeling (LDA)**: Automatically clusters symptoms into specialized categories (Neurological, Respiratory, etc.).
+
+### 💻 Modern Web Interface
+
+- **Glassmorphism Design**: Sleek, transparent UI components with medical-blue and emergency-red themes.
+- **Real-Time Updates**: Instant message delivery and state transitions using React hooks.
+- **Responsive Layout**: Seamlessly works on desktop, tablet, and mobile browsers.
+
+---
+
 ## 🛠 Tech Stack & NLP Methods
 
 ### **Core Technology**
