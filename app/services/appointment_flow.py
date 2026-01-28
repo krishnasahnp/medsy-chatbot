@@ -116,6 +116,14 @@ class AppointmentBookingFlow:
             }
             
         elif self.state == self.COMPLETED:
+            if any(word in user_input.lower() for word in ["show", "detail", "summary", "appointment", "view"]):
+                return {
+                    "response": "Here are your appointment details:",
+                    "options": [],
+                    "state": self.state,
+                    "data": self.booking_data,
+                    "is_summary": True
+                }
             response = "Your appointment is already booked. Do you need anything else?"
             
         return {

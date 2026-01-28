@@ -51,7 +51,24 @@ async def chat_endpoint(request: ChatRequest):
         # If the session was already completed, and user is NOT trying to book again,
         # clear it so they can go back to general chat.
         if flow.state == AppointmentBookingFlow.COMPLETED and intent['intent'] != "book_appointment":
-            delete_session(user_id)
+            # Don't delete if they are just asking to see current details
+            if not any(word in message.lower() for word in ["show", "detail", "summary", "appointment", "view"]):
+                delete_session(user_id)
+            else:
+                # Process the "show details" request
+                result = flow.process_input(message)
+                response_text = result['response']
+                intent['options'] = result.get('options', [])
+                intent['state'] = result.get('state')
+                intent['is_summary'] = result.get('is_summary', False)
+                intent['booking_data'] = result.get('data')
+                
+                return ChatResponse(
+                    response=response_text,
+                    sentiment=sentiment_analyzer.analyze(message),
+                    intent=intent,
+                    is_emergency=False
+                )
         else:
             result = flow.process_input(message)
             response_text = result['response']
