@@ -122,7 +122,26 @@ const ChatInterface = () => {
                                     : 'bg-white/70 text-gray-800 rounded-tl-none border border-gray-100'
                             }`}
                         >
-                            <p>{msg.text}</p>
+                            {msg.fileData ? (
+                                <div className="flex items-center space-x-3 bg-white/10 p-3 rounded-xl border border-white/20">
+                                    <div className="p-2 bg-white/20 rounded-lg">
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                        </svg>
+                                    </div>
+                                    <div className="flex-1 min-w-0">
+                                        <p className="text-sm font-medium truncate">{msg.fileData.name}</p>
+                                        <p className="text-[10px] opacity-70">{msg.fileData.size} • Uploaded successfully</p>
+                                    </div>
+                                    <div className="text-green-400">
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                                        </svg>
+                                    </div>
+                                </div>
+                            ) : (
+                                <p>{msg.text}</p>
+                            )}
                             
                             {/* Modern Appointment Summary Card */}
                             {msg.intent?.is_summary && msg.intent?.booking_data && (
@@ -244,13 +263,28 @@ const ChatInterface = () => {
                         type="file" 
                         className="hidden" 
                         onChange={(e) => {
-                            if (e.target.files.length > 0) {
-                                alert('Report uploaded successfully!');
+                            const file = e.target.files[0];
+                            if (file) {
+                                // Add a visual "File Upload" message from the user
+                                const fileMsg = {
+                                    id: Date.now(),
+                                    text: `Uploaded: ${file.name}`,
+                                    sender: 'user',
+                                    fileData: {
+                                        name: file.name,
+                                        size: (file.size / 1024).toFixed(1) + ' KB'
+                                    },
+                                    timestamp: new Date()
+                                };
+                                setMessages(prev => [...prev, fileMsg]);
+                                
                                 // Auto-trigger summary transition
-                                setInputText("See Summary");
                                 setTimeout(() => {
-                                    document.getElementById('chat-submit-btn')?.click();
-                                }, 500);
+                                    setInputText("See Summary");
+                                    setTimeout(() => {
+                                        document.getElementById('chat-submit-btn')?.click();
+                                    }, 100);
+                                }, 800);
                             }
                         }} 
                     />
