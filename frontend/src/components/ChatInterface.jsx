@@ -63,15 +63,47 @@ const ChatInterface = () => {
     };
 
     const toggleListening = () => {
-        setIsListening(!isListening);
-        // Here we would implement the browser SpeechRecognition API or Audio recording
-        if (!isListening) {
-             // Mock start listening logic
-             setTimeout(() => {
-                 setInputText("I have a headache");
-                 setIsListening(false);
-             }, 2000);
+        if (isListening) {
+            setIsListening(false);
+            return;
         }
+
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        if (!SpeechRecognition) {
+            alert("Your browser does not support Speech Recognition. Please try Chrome or Edge.");
+            return;
+        }
+
+        const recognition = new SpeechRecognition();
+        recognition.lang = 'en-US';
+        recognition.interimResults = false;
+        recognition.maxAlternatives = 1;
+
+        recognition.onstart = () => {
+            setIsListening(true);
+        };
+
+        recognition.onresult = (event) => {
+            const speechToText = event.results[0][0].transcript;
+            setInputText(speechToText);
+            setIsListening(false);
+            
+            // Auto-submit after voice input
+            setTimeout(() => {
+                document.getElementById('chat-submit-btn')?.click();
+            }, 500);
+        };
+
+        recognition.onerror = (event) => {
+            console.error("Speech recognition error:", event.error);
+            setIsListening(false);
+        };
+
+        recognition.onend = () => {
+            setIsListening(false);
+        };
+
+        recognition.start();
     };
 
     return (
