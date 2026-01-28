@@ -4,6 +4,15 @@ import AppointmentWidget from './components/AppointmentWidget';
 
 function App() {
   const [activeTab, setActiveTab] = useState('chat');
+  const [userName, setUserName] = useState(() => localStorage.getItem('medsy_user_name') || 'Santosh (Guest)');
+  const [isEditingName, setIsEditingName] = useState(false);
+
+  const handleNameSave = (e) => {
+    if (e.key === 'Enter' || e.type === 'blur') {
+      setIsEditingName(false);
+      localStorage.setItem('medsy_user_name', userName);
+    }
+  };
 
   return (
     <div className="flex h-screen bg-gray-50 text-gray-800 font-sans">
@@ -37,11 +46,30 @@ function App() {
           </li>
         </ul>
         <div className="p-4 border-t border-gray-200">
-          <div className="flex items-center space-x-2">
-            <div className="w-8 h-8 rounded-full bg-gray-300"></div>
-            <div>
-              <p className="text-sm font-medium">Santosh (Guest)</p>
-              <p className="text-xs text-gray-500">View Profile</p>
+          <div className="flex items-center space-x-2 p-1 hover:bg-gray-50 rounded-lg transition-colors group">
+            <div className="w-10 h-10 rounded-full bg-medical-blue/10 flex items-center justify-center text-medical-blue font-bold text-lg border border-medical-blue/20">
+              {userName[0].toUpperCase()}
+            </div>
+            <div className="flex-1 min-w-0">
+              {isEditingName ? (
+                <input
+                  type="text"
+                  value={userName}
+                  onChange={(e) => setUserName(e.target.value)}
+                  onKeyDown={handleNameSave}
+                  onBlur={handleNameSave}
+                  autoFocus
+                  className="text-sm font-medium w-full bg-transparent border-b border-medical-blue focus:outline-none"
+                />
+              ) : (
+                <div 
+                  onClick={() => setIsEditingName(true)}
+                  className="cursor-pointer"
+                >
+                  <p className="text-sm font-medium truncate group-hover:text-medical-blue transition-colors">{userName}</p>
+                  <p className="text-[10px] text-gray-400">Click to edit profile</p>
+                </div>
+              )}
             </div>
           </div>
         </div>
