@@ -111,7 +111,7 @@ const ChatInterface = () => {
             {/* Chat Area */}
             <div className="flex-1 overflow-y-auto p-4 space-y-4 pb-20">
                 {messages.map((msg) => (
-                    <div key={msg.id} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'} animate-in fade-in slide-in-from-bottom-2 duration-300`}>
+                    <div key={msg.id} className={`flex flex-col ${msg.sender === 'user' ? 'items-end' : 'items-start'} animate-in fade-in slide-in-from-bottom-2 duration-300`}>
                         <div 
                             className={`max-w-[80%] md:max-w-[70%] p-4 rounded-2xl shadow-lg backdrop-blur-md text-sm md:text-base transition-all hover:scale-[1.02]
                             ${msg.sender === 'user' 
@@ -145,11 +145,10 @@ const ChatInterface = () => {
                                     ))}
                                 </div>
                             )}
-
-                            <span className={`text-[10px] mt-3 block opacity-80 ${msg.sender === 'user' ? 'text-right' : 'text-left'}`}>
-                                {new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                            </span>
                         </div>
+                        <span className="text-[10px] mt-1 px-2 opacity-60 text-gray-500">
+                            {new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                        </span>
                     </div>
                 ))}
                 <div ref={messagesEndRef} />
