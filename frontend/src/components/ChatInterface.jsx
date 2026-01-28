@@ -146,7 +146,7 @@ const ChatInterface = () => {
                                 </div>
                             )}
 
-                            <span className={`text-[10px] mt-1 block opacity-70 ${msg.sender === 'user' ? 'text-right' : 'text-left'}`}>
+                            <span className={`text-[10px] mt-3 block opacity-80 ${msg.sender === 'user' ? 'text-right' : 'text-left'}`}>
                                 {new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                             </span>
                         </div>
