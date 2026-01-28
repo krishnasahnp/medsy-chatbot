@@ -77,13 +77,14 @@ class AppointmentBookingFlow:
             
             elif "yes" in user_input.lower():
                 self.booking_data["has_reports"] = True
-                response = "Great! Please upload your medical reports here. Once you're finished, click 'See Summary' to finalize your booking."
+                response = "Great! Please use the button below or the 📎 icon to upload your medical reports. Click 'See Summary' when you are done."
                 options = ["See Summary"]
                 return {
                     "response": response,
                     "options": options,
                     "state": self.state,
-                    "data": self.booking_data
+                    "data": self.booking_data,
+                    "is_upload_prompt": True
                 }
             
             elif "summary" in user_input.lower():
@@ -97,7 +98,11 @@ class AppointmentBookingFlow:
             
         elif self.state == self.CONFIRMATION:
             self.booking_data["id"] = f"APT-{random.randint(1000,9999)}"
-            summary = "Your appointment has been successfully scheduled! Here are your details:"
+            self.booking_data["patient_name"] = "Sah Krishna" # Mock from session/user
+            self.booking_data["location"] = "Medsy Wellness Center, Block C"
+            self.booking_data["doctor"] = "Dr. Shrestha (General Physician)"
+            
+            summary = "Your appointment has been successfully scheduled! Here are your complete details:"
             response = summary
             self.state = self.COMPLETED
             

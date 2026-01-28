@@ -137,21 +137,59 @@ const ChatInterface = () => {
                                     </div>
                                     <div className="space-y-3">
                                         <div className="flex justify-between items-center border-b border-white/10 pb-2">
-                                            <span className="text-white/60 text-xs">Reason:</span>
+                                            <span className="text-white/60 text-[11px] uppercase tracking-tighter">Patient:</span>
+                                            <span className="text-white font-semibold text-sm">{msg.intent.booking_data.patient_name}</span>
+                                        </div>
+                                        <div className="flex justify-between items-center border-b border-white/10 pb-2">
+                                            <span className="text-white/60 text-[11px] uppercase tracking-tighter">Physician:</span>
+                                            <span className="text-white font-semibold text-sm">{msg.intent.booking_data.doctor}</span>
+                                        </div>
+                                        <div className="flex justify-between items-center border-b border-white/10 pb-2">
+                                            <span className="text-white/60 text-[11px] uppercase tracking-tighter">Reason:</span>
                                             <span className="text-white font-medium text-sm">{msg.intent.booking_data.problem}</span>
                                         </div>
                                         <div className="flex justify-between items-center border-b border-white/10 pb-2">
-                                            <span className="text-white/60 text-xs">Date:</span>
-                                            <span className="text-white font-medium text-sm">{msg.intent.booking_data.date}</span>
+                                            <span className="text-white/60 text-[11px] uppercase tracking-tighter">Schedule:</span>
+                                            <span className="text-white font-medium text-sm">{msg.intent.booking_data.date} at {msg.intent.booking_data.time}</span>
                                         </div>
-                                        <div className="flex justify-between items-center">
-                                            <span className="text-white/60 text-xs">Time:</span>
-                                            <span className="text-white font-medium text-sm">{msg.intent.booking_data.time}</span>
+                                        <div className="flex flex-col pt-1">
+                                            <span className="text-white/60 text-[11px] uppercase tracking-tighter mb-1">Clinic Location:</span>
+                                            <div className="flex items-start space-x-1">
+                                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-medical-blue mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                                </svg>
+                                                <span className="text-white text-xs leading-tight">{msg.intent.booking_data.location}</span>
+                                            </div>
+                                        </div>
+                                        <div className="flex justify-between items-center pt-2">
+                                            <span className="text-white/60 text-[11px] uppercase tracking-tighter">Reports Attached:</span>
+                                            <span className={`text-[11px] px-2 py-0.5 rounded-full font-bold ${msg.intent.booking_data.has_reports ? 'bg-green-500/20 text-green-400' : 'bg-white/10 text-white/40'}`}>
+                                                {msg.intent.booking_data.has_reports ? 'YES' : 'NONE'}
+                                            </span>
                                         </div>
                                     </div>
                                     <div className="mt-4 pt-3 border-t border-white/20 text-center">
                                         <p className="text-[10px] text-white/50 italic">Medsy Medical Assistant - Healthcare in your pocket</p>
                                     </div>
+                                </div>
+                            )}
+
+                            {/* Interactive Upload Prompt */}
+                            {msg.intent?.is_upload_prompt && (
+                                <div className="mt-4 p-4 bg-white/10 border border-dashed border-white/40 rounded-xl text-center">
+                                    <button 
+                                        onClick={() => document.getElementById('report-upload').click()}
+                                        className="flex flex-col items-center justify-center w-full space-y-2 py-4 hover:bg-white/5 transition-colors group"
+                                    >
+                                        <div className="p-3 bg-medical-blue rounded-full group-hover:scale-110 transition-transform shadow-lg">
+                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+                                            </svg>
+                                        </div>
+                                        <span className="text-sm font-semibold text-white">Upload Prescription / Report</span>
+                                        <span className="text-[10px] text-white/60">PDF, JPG, or PNG (Max 10MB)</span>
+                                    </button>
                                 </div>
                             )}
 
