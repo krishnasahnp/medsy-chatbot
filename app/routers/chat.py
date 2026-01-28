@@ -5,8 +5,8 @@ from app.services.sentiment_analyzer import SentimentAnalyzer
 from app.services.intent_classifier import IntentClassifier
 from app.services.ai_generator import AIGenerator
 from app.services.emergency_detector import EmergencyDetector
-from app.models.database import ChatHistory, SessionLocal
-# from app.dependencies import get_db
+from app.core.sessions import get_or_create_session, delete_session, booking_sessions
+from app.services.appointment_flow import AppointmentBookingFlow
 
 router = APIRouter(prefix="/chat", tags=["chat"])
 
@@ -29,9 +29,9 @@ class ChatResponse(BaseModel):
 @router.post("/", response_model=ChatResponse)
 async def chat_endpoint(request: ChatRequest):
     message = request.message
+    user_id = request.user_id
     
     # 1. Emergency Check
-    # (Simple logic: split tokens or pass full text as list for detector)
     emergency_status = emergency_detector.check_symptoms(message.split())
     if emergency_status['is_emergency']:
         return ChatResponse(
@@ -41,23 +41,36 @@ async def chat_endpoint(request: ChatRequest):
             is_emergency=True
         )
 
-    # 2. Sentiment Analysis
-    sentiment = sentiment_analyzer.analyze(message)
-    
-    # 3. Intent Classification
+    # 2. Appointment Flow Check
+    # If the user is already in a session OR the intent is to book
     intent = intent_classifier.predict(message)
     
-    # 4. Generate AI Response
-    # Context could be fetched from DB history
+    if user_id in booking_sessions or intent['intent'] == "book_appointment":
+        flow = get_or_create_session(user_id)
+        
+        # If the session was already completed, and user is NOT trying to book again,
+        # clear it so they can go back to general chat.
+        if flow.state == AppointmentBookingFlow.COMPLETED and intent['intent'] != "book_appointment":
+            delete_session(user_id)
+        else:
+            result = flow.process_input(message)
+            response_text = result['response']
+            intent['options'] = result.get('options', [])
+            intent['state'] = result.get('state')
+            
+            return ChatResponse(
+                response=response_text,
+                sentiment=sentiment_analyzer.analyze(message),
+                intent=intent,
+                is_emergency=False
+            )
+
+    # 3. Standard Sentiment Analysis
+    sentiment = sentiment_analyzer.analyze(message)
+    
+    # 4. Generate AI Response for general queries
     response_text = ai_generator.generate_response(message, "No context yet", sentiment)
     
-    # 5. Log to DB (Simplified)
-    # db = SessionLocal()
-    # db.add(ChatHistory(user_id=request.user_id, message_text=message, sender="user", intent_detected=intent['intent']))
-    # db.add(ChatHistory(user_id=request.user_id, message_text=response_text, sender="bot"))
-    # db.commit()
-    # db.close()
-
     return ChatResponse(
         response=response_text,
         sentiment=sentiment,
