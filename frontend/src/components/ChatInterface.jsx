@@ -123,6 +123,38 @@ const ChatInterface = () => {
                         >
                             <p>{msg.text}</p>
                             
+                            {/* Modern Appointment Summary Card */}
+                            {msg.intent?.is_summary && msg.intent?.booking_data && (
+                                <div className="mt-4 bg-white/10 border border-white/20 rounded-xl p-4 shadow-inner overflow-hidden relative">
+                                    <div className="absolute top-0 right-0 p-2 opacity-20">
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                        </svg>
+                                    </div>
+                                    <div className="flex items-center space-x-2 mb-3">
+                                        <span className="bg-medical-blue text-white text-[10px] px-2 py-0.5 rounded-full uppercase tracking-widest font-bold">Confirmed</span>
+                                        <span className="text-white/60 text-[10px] font-mono">ID: {msg.intent.booking_data.id}</span>
+                                    </div>
+                                    <div className="space-y-3">
+                                        <div className="flex justify-between items-center border-b border-white/10 pb-2">
+                                            <span className="text-white/60 text-xs">Reason:</span>
+                                            <span className="text-white font-medium text-sm">{msg.intent.booking_data.problem}</span>
+                                        </div>
+                                        <div className="flex justify-between items-center border-b border-white/10 pb-2">
+                                            <span className="text-white/60 text-xs">Date:</span>
+                                            <span className="text-white font-medium text-sm">{msg.intent.booking_data.date}</span>
+                                        </div>
+                                        <div className="flex justify-between items-center">
+                                            <span className="text-white/60 text-xs">Time:</span>
+                                            <span className="text-white font-medium text-sm">{msg.intent.booking_data.time}</span>
+                                        </div>
+                                    </div>
+                                    <div className="mt-4 pt-3 border-t border-white/20 text-center">
+                                        <p className="text-[10px] text-white/50 italic">Medsy Medical Assistant - Healthcare in your pocket</p>
+                                    </div>
+                                </div>
+                            )}
+
                             {msg.options && msg.options.length > 0 && (
                                 <div className="flex flex-wrap gap-2 mt-4 pt-3 border-t border-white/10">
                                     {msg.options.map((opt, idx) => (
@@ -172,7 +204,16 @@ const ChatInterface = () => {
                         id="report-upload" 
                         type="file" 
                         className="hidden" 
-                        onChange={(e) => alert('Report uploaded successfully!')} 
+                        onChange={(e) => {
+                            if (e.target.files.length > 0) {
+                                alert('Report uploaded successfully!');
+                                // Auto-trigger summary transition
+                                setInputText("See Summary");
+                                setTimeout(() => {
+                                    document.getElementById('chat-submit-btn')?.click();
+                                }, 500);
+                            }
+                        }} 
                     />
 
                     <button 

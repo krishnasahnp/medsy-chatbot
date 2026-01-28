@@ -57,6 +57,8 @@ async def chat_endpoint(request: ChatRequest):
             response_text = result['response']
             intent['options'] = result.get('options', [])
             intent['state'] = result.get('state')
+            intent['is_summary'] = result.get('is_summary', False)
+            intent['booking_data'] = result.get('data')
             
             return ChatResponse(
                 response=response_text,

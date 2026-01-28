@@ -97,15 +97,18 @@ class AppointmentBookingFlow:
             
         elif self.state == self.CONFIRMATION:
             self.booking_data["id"] = f"APT-{random.randint(1000,9999)}"
-            summary = (
-                f"Appointment Confirmed!\n"
-                f"ID: {self.booking_data['id']}\n"
-                f"Problem: {self.booking_data['problem']}\n"
-                f"Date: {self.booking_data['date']}\n"
-                f"Time: {self.booking_data['time']}"
-            )
+            summary = "Your appointment has been successfully scheduled! Here are your details:"
             response = summary
             self.state = self.COMPLETED
+            
+            # Return specialized data for frontend to render modern card
+            return {
+                "response": response,
+                "options": [],
+                "state": self.state,
+                "data": self.booking_data,
+                "is_summary": True
+            }
             
         elif self.state == self.COMPLETED:
             response = "Your appointment is already booked. Do you need anything else?"
