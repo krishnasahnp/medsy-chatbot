@@ -47,7 +47,14 @@ class AppointmentBookingFlow:
             selection = self._match_problem(user_input)
             self.booking_data["problem"] = selection
             self.state = self.DATE_SELECTION
-            response = f"Okay, checking for {selection}. When would you like to come in? (e.g., Next Monday, Jan 30th)"
+            response = f"Okay, checking for {selection}. When would you like to come in?"
+            
+            # Generate Suggested Dates as interactive options
+            today = datetime.now()
+            options = ["Today", "Tomorrow"]
+            for i in range(2, 5):
+                future_date = today + timedelta(days=i)
+                options.append(future_date.strftime("%b %d"))
             
         elif self.state == self.DATE_SELECTION:
             # In a real app, use dateparser logic
@@ -59,16 +66,34 @@ class AppointmentBookingFlow:
         elif self.state == self.TIME_SELECTION:
             self.booking_data["time"] = user_input
             self.state = self.FILE_UPLOAD
-            response = "Noted. Do you have any medical reports or files to share? (Yes/No)"
+            response = "Noted. Do you have any medical reports or files to share?"
+            options = ["Yes", "No"]
             
         elif self.state == self.FILE_UPLOAD:
-            if "yes" in user_input.lower():
-                response = "Please upload your files using the interface. (Simulated: File received). Proceeding to confirmation."
-            else:
-                response = "Okay, no files. Let's review."
+            if "no" in user_input.lower():
+                self.booking_data["has_reports"] = False
+                self.state = self.CONFIRMATION
+                return self.process_input("") 
             
-            self.state = self.CONFIRMATION
-            return self.process_input("") # Auto-transition to confirmation msg
+            elif "yes" in user_input.lower():
+                self.booking_data["has_reports"] = True
+                response = "Great! Please upload your medical reports here. Once you're finished, click 'See Summary' to finalize your booking."
+                options = ["See Summary"]
+                return {
+                    "response": response,
+                    "options": options,
+                    "state": self.state,
+                    "data": self.booking_data
+                }
+            
+            elif "summary" in user_input.lower():
+                self.state = self.CONFIRMATION
+                return self.process_input("")
+            
+            else:
+                # Default case to handle transition
+                self.state = self.CONFIRMATION
+                return self.process_input("")
             
         elif self.state == self.CONFIRMATION:
             self.booking_data["id"] = f"APT-{random.randint(1000,9999)}"

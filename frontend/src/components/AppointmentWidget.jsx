@@ -38,8 +38,8 @@ const AppointmentWidget = () => {
     };
 
     return (
-        <div className="flex flex-col h-full bg-white p-4 max-w-lg mx-auto">
-            <h2 className="text-xl font-bold mb-4 text-center text-medical-blue">Book an Appointment</h2>
+        <div className="flex flex-col h-full bg-white p-4 w-full">
+            <h2 className="text-2xl font-bold mb-6 text-center text-medical-blue border-b pb-4">Book an Appointment</h2>
             
             <div className="flex-1 overflow-y-auto space-y-4">
                 {messages.map((msg) => (

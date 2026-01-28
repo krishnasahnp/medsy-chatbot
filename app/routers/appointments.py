@@ -5,8 +5,7 @@ from app.services.appointment_flow import AppointmentBookingFlow
 
 router = APIRouter(prefix="/appointments", tags=["appointments"])
 
-# In-memory session store for demo purposes (production would use Redis/DB)
-booking_sessions = {} 
+from app.core.sessions import get_or_create_session, delete_session
 
 class BookingRequest(BaseModel):
     user_id: int
@@ -21,11 +20,8 @@ class BookingResponse(BaseModel):
 async def process_booking(request: BookingRequest):
     user_id = request.user_id
     
-    # Retrieve or create session
-    if user_id not in booking_sessions:
-        booking_sessions[user_id] = AppointmentBookingFlow()
-        
-    flow = booking_sessions[user_id]
+    # Retrieve or create session via shared store
+    flow = get_or_create_session(user_id)
     
     # Process input
     result = flow.process_input(request.message)
@@ -45,6 +41,5 @@ async def process_booking(request: BookingRequest):
 
 @router.delete("/reset/{user_id}")
 async def reset_booking(user_id: int):
-    if user_id in booking_sessions:
-        booking_sessions.pop(user_id)
+    delete_session(user_id)
     return {"message": "Booking session reset"}
